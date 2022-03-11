@@ -134,26 +134,30 @@ class HumanPlayer(Player):
         )
         dec = decision.lower()
         if dec == "hit":
-            sum = self.hit(deck)
+            hand_sum = self.hit(deck)
         elif dec == "stand":
-            sum = self.stand()
+            hand_sum = self.stand()
         # elif dec == "split":
         #     sum = self.split(deck)
         elif dec == "double down":
-            sum = self.double_down(deck)
+            hand_sum = self.double_down(deck)
         elif dec == "basic strategy":
-            sum = self.basic_strategy(deck, dealer.hand.hand_up[0])
+            hand_sum = self.basic_strategy(deck, dealer.hand.hand_up[0])
         else:
             print(f"{decision} is not a valid input. Try again:")
-            self.move()
-        return sum
+            self.move(deck, dealer)
+        return hand_sum
 
     def place_bet(self, player_number, balance):
-        self.bet = int(
-            input(
-                f"\n{player_number} has {balance} remaining. How much do you want to bet?\n\n"
+        try:
+            self.bet = int(
+                input(
+                    f"\n{player_number} has {balance} remaining. How much do you want to bet?\n\n"
+                )
             )
-        )
+        except ValueError:
+            print(f"{self.bet} is not a valid bet.")
+            self.place_bet(player_number,  balance)
 
 
 class BasicStrategyPlayer(Player):

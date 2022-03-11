@@ -12,9 +12,16 @@ def player_count(player_type):
 
 
 def get_players():
-    human_players = player_count("human players")
-    bs_players = 0  # player_count("basic strategy players")
-    sr_players = player_count("semi random players")
+    try:
+        human_players = int(player_count("human players"))
+        bs_players = int(0)  # player_count("basic strategy players")
+        sr_players = int(player_count("semi random players"))
+        if human_players < 0 or bs_players < 0 or sr_players < 0:
+            print("Player numbers must be non-negative!")
+            human_players, bs_players, sr_players = get_players()
+    except ValueError:
+        print("That isn't a valid number of players!")
+        human_players, bs_players, sr_players = get_players()
     if human_players + bs_players + sr_players > 5:
         print("No more than 5 players allowed!")
         human_players, bs_players, sr_players = get_players()
@@ -204,7 +211,7 @@ def new_game():
         return False
     else:
         print(f"\n{again} is not a valid response, please enter 'y' or 'n'.")
-        new_game()
+        return new_game()
 
 
 def play():
