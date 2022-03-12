@@ -63,11 +63,17 @@ class Player:
     #     self.hand2.hand_up.append(self.hand.hand_up[1])
     #     self.hand.hand_up.pop()
 
-    def double_down(self, deck: Deck):
-        self.hand.hand_down.append(deck.deal())
-        self.double = True
-        self.bet *= 2
-        return self.total
+    def double_down(self, hand: Hand, deck: Deck):
+        self.balance -= hand.bet
+        if self.balance < 0:
+            self.balance += hand.bet
+            print("Insufficient funds to double down. You hit instead.")
+            self.hit(hand, deck)
+        else:
+            hand.add(deck.deal(), up=False)
+            hand.double = True
+            hand.bet *= 2
+            return hand.total
 
     def basic_strategy(self, deck, dealer_card):
         if not val_dict[self.hand.hand_up[0]] > val_dict[self.hand.hand_up[1]]:

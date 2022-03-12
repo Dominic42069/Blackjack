@@ -177,5 +177,6 @@ cython_debug/
 # Support for Project snippet scope
 
 test.py
+side_quest
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
